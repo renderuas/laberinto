@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from collections import deque
 from heapq import heappop, heappush
+import argparse
 
 def generar_laberinto_recursivo(filas, columnas):
     laberinto = np.ones((filas, columnas))
@@ -59,17 +59,36 @@ def resolver_laberinto_a_star(laberinto):
 
     return camino
 
-laberinto_recursivo = generar_laberinto_recursivo(81, 81)
-solucion_a_star = resolver_laberinto_a_star(laberinto_recursivo)
+def main():
+    parser = argparse.ArgumentParser(description='Generar y resolver laberinto.')
+    parser.add_argument('--name', type=str, default='', help='Nombre base para los archivos del laberinto y solución')
+    parser.add_argument('--size', type=int, default=40, help='Tamaño del laberinto (filas y columnas)')
+    args = parser.parse_args()
 
-plt.figure()
-plt.imshow(laberinto_recursivo, cmap="binary")
-plt.title('Laberinto (Recursivo)')
-plt.axis('off')
-plt.savefig('laberinto.png')
+    nombre_base = args.name
+    size = args.size
+    if size % 2 == 0:
+        size = size * 2 + 1
+    else:
+        size = size * 2 - 1
+        
+    nombre_laberinto = (nombre_base + 'laberinto.png') if nombre_base else 'laberinto.png'
+    nombre_solucion = (nombre_base + 'solucion.png') if nombre_base else 'solucion.png'
 
-plt.figure()
-plt.imshow(solucion_a_star, cmap="autumn")
-plt.title('Solución (A*)')
-plt.axis('off')
-plt.savefig('solucion.png')
+    laberinto_recursivo = generar_laberinto_recursivo(size, size)
+    solucion_a_star = resolver_laberinto_a_star(laberinto_recursivo)
+
+    plt.figure()
+    plt.imshow(laberinto_recursivo, cmap="binary")
+    plt.title('Laberinto (Recursivo)')
+    plt.axis('off')
+    plt.savefig(nombre_laberinto)
+
+    plt.figure()
+    plt.imshow(solucion_a_star, cmap="autumn")
+    plt.title('Solución (A*)')
+    plt.axis('off')
+    plt.savefig(nombre_solucion)
+
+if __name__ == "__main__":
+    main()
