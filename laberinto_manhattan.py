@@ -2,6 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from heapq import heappop, heappush
 import argparse
+import sys
+
+# Aumenta el límite de recursión a 10,000 (ajusta según sea necesario)
+sys.setrecursionlimit(10000)
 
 def generar_laberinto_recursivo(filas, columnas):
     laberinto = np.ones((filas, columnas))
@@ -66,7 +70,8 @@ def main():
     args = parser.parse_args()
 
     nombre_base = args.name
-    size = args.size
+    # Asegúrate de que el tamaño del laberinto no sea demasiado grande
+    size = min(args.size, 100)  # Limite el tamaño según sea necesario
     if size % 2 == 0:
         size = size * 2 + 1
     else:
