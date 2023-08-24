@@ -70,7 +70,8 @@ def main():
     args = parser.parse_args()
 
     nombre_base = args.name
-    # Asegúrate de que el tamaño del laberinto no sea demasiado grande
+    # Asegúrate de que el tamaño del laberinto no sea dema
+    # siado grande
     size = min(args.size, 100)  # Limite el tamaño según sea necesario
     if size % 2 == 0:
         size = size * 2 + 1
